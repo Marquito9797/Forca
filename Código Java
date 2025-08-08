@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); // Cria um scanner para ler a entrada do usuário
+        System.out.println("Bem-vindo ao Jogo da Forca!"); // Mensagem de boas-vindas
+
+        // Define a palavra secreta
+
+        String palavraSecreta = "JAVINHA"; // palavra a ser adivinhada
+        palavraSecreta = palavraSecreta.toUpperCase(); // Converte a palavra para maiúsculas para facilitar a comparação
+        System.out.println("Adivinhe a palavra secreta! Ela tem " + palavraSecreta.length() + " letras."); // Msotra o tamanho da palavra
+
+        // Cria um Array para mostrar progresso
+        char[] progresso = new char[palavraSecreta.length()]; // Cria um array do tamanho da palavra secreta
+        for (int i = 0; i < progresso.length; i++) { // Preenche o array com '_'
+            progresso[i] = '_'; // Cada letra ainda não adivinhada é representada por '_'
+        }
+
+        int tentativasRestantes = 6; // número de chances
+        boolean venceu = false; // variável para verificar se o jogador venceu
+
+        // Loop principal do jogo
+        while (tentativasRestantes > 0 && !venceu) { // Enquanto o jogador tiver tentativas e não tiver vencido
+            // Exibe o progresso atual
+            System.out.println("\nPalavra: " + String.valueOf(progresso)); // Converte o array de progresso em uma String para exibir
+            System.out.println("Tentativas restantes: " + tentativasRestantes); // Mostra quantas tentativas ainda restam
+            System.out.print("Digite uma letra: "); // Solicita ao usuário que digite uma letra
+            char letra = scanner.next().toUpperCase().charAt(0); // Lê a letra digitada pelo usuário e a converte para maiúscula
+
+            boolean acertou = false; // Variável para verificar se a letra foi acertada
+
+            // Verifica se a letra existe na palavra
+            for (int i = 0; i < palavraSecreta.length(); i++) { // Percorre cada letra da palavra secreta
+                if (palavraSecreta.charAt(i) == letra && progresso[i] == '_') { // Se a letra digitada for igual à letra da palavra secreta e ainda não foi adivinhada
+                    progresso[i] = letra; // Atualiza o progresso com a letra adivinhada
+                    acertou = true; // Marca que o jogador acertou uma letra
+                }
+            }
+
+            if (!acertou) { // Se a letra não foi encontrada na palavra secreta
+                tentativasRestantes--;
+                System.out.println("Letra incorreta!");
+            } else { // Se a letra foi encontrada na palavra secreta
+                System.out.println("Boa! Você acertou uma letra.");
+            }
+
+            // Verifica se venceu
+            venceu = true;
+            for (char c : progresso) { // Percorre o progresso para verificar se todas as letras foram adivinhadas
+                if (c == '_') {
+                    venceu = false;
+                    break; // Se encontrar um '_' significa que ainda não venceu
+                }
+            }
+        }
+
+        // Resultado final
+        if (venceu) {
+            System.out.println("\nParabéns! Você adivinhou: " + palavraSecreta);
+        } else {
+            System.out.println("\nVocê perdeu! A palavra era: " + palavraSecreta);
+        }
+
+        scanner.close();
+    }
+}
